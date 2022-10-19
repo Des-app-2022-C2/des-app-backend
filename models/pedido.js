@@ -51,8 +51,8 @@ const dataSchema = new mongoose.Schema({
       equipo: { type: mongoose.Schema.Types.ObjectId, ref: "Equipo" },
     },
   ],
-  // lista_reactivos: [],
-  // lista_materiales: [],
+  //lista_reactivos: [],
+  //lista_materiales: [],
 });
 
 module.exports = mongoose.model("Pedido", dataSchema);
