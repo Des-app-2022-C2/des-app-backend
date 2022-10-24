@@ -51,8 +51,67 @@ const dataSchema = new mongoose.Schema({
       equipo: { type: mongoose.Schema.Types.ObjectId, ref: "Equipo" },
     },
   ],
-  //lista_reactivos: [],
-  //lista_materiales: [],
+  lista_reactivos: [
+    {
+      idReactivo: {  //esta en DER pero no en Figma
+        required: true,
+        type: Number,
+      },
+      descripcion: {
+        required: true,
+        type: String,
+      },
+      cas: {
+        required: true,
+        type: String,
+      },
+      calidad: {
+        required: true,
+        type: String,
+      }, 
+      concentracion_tipo: {
+        required: true,
+        type: String,
+      }, 
+      concentracion_medida: {
+        required: true,
+        type: Number,
+      }, 
+      disolvente: {
+        required: true,
+        type: String,
+      },
+      cantidad: {
+        required: true,
+        type: Number,
+      },
+      equipo: { type: mongoose.Schema.Types.ObjectId, ref: "Equipo" },
+    },
+  ],
+  lista_materiales: [ {
+  
+    descripcion: {
+      required: true,
+      type: String,
+    },
+    cantidd: {
+      required: true,
+      type: Number, 
+    },
+    unidadDeMedida: {
+      required: true,
+      type: Number,
+    },
+    clase: {
+      required: true,
+      type: String,
+    },
+    stock: {
+      required: true,
+      type: Number, 
+    },
+    equipo: { type: mongoose.Schema.Types.ObjectId, ref: "Equipo" },
+  },],
 });
 
 module.exports = mongoose.model("Pedido", dataSchema);
