@@ -5,6 +5,9 @@ const Pedido = require("../models/pedido");
 const Material = require("../models/material");
 const Reactivo = require("../models/reactivo");
 const Usuario = require("../models/usuario");
+const { tokenSign } = require("../helpers/generateToken");
+const checkAuth = require("../middleware/auth");
+const checkRoleAuth = require("../middleware/roleAuth");
 
 //Verbos para equipos
 //Post de un equipo
@@ -101,8 +104,8 @@ router.post("/pedido/post", async (req, res) => {
   }
 });
 
-//Get All
-router.get("/pedido/getAll", async (req, res) => {
+//Get All 
+router.get("/pedido/getAll", checkAuth, checkRoleAuth, async (req, res) => {
   try {
     const data = await Pedido.find().populate({
       path: 'lista_equipos.equipo',
@@ -339,7 +342,7 @@ router.post("/usuario/post", async (req, res) => {
 });
 
 //Get All
-router.get("/usuario/getAll", async (req, res) => {
+router.get("/usuario/getAll", checkAuth, async (req, res) => {
   try {
     const data = await Usuario.find();
     res.json(data);
@@ -366,8 +369,13 @@ router.get("/usuario/getOneByUsuarioContrasenia/:usuario/:contrasenia", async (r
     const contrasenia = req.params.contrasenia;
 
     const data = await Usuario.find({ "usuario": usuario, "contrasenia": contrasenia });
+    const token = await tokenSign(data[0])
 
-    res.json(data);
+    //res.json(data);
+    res.send({
+      data,
+      token
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
