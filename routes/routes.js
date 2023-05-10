@@ -210,12 +210,12 @@ router.get("/pedido/getAllUseDate/:fecha_utilizacion", async (req, res) => {
 });
 
 router.get('/pedido', async (req, res) => {
-  const { fecha_utilizacion, tipo_pedido, fecha_inicio, fecha_fin, edificio } = req.query;
+  const { fecha_utilizacion, tipo_pedido, fecha_inicio, fecha_fin, edificio } = req.params;
 
   try {
     let query = {};
 
-    if (fecha_utilizacion) {
+    if (fecha_utilizacion != "") {
       const fechaUtilizacionStart = new Date(fecha_utilizacion);
       fechaUtilizacionStart.setUTCHours(0, 0, 0, 0);
       const fechaUtilizacionEnd = new Date(fecha_utilizacion);
@@ -227,10 +227,10 @@ router.get('/pedido', async (req, res) => {
       };
     }
 
-    if (tipo_pedido) {
+    if (tipo_pedido != " ") {
       query.tipo_pedido = tipo_pedido;
     }
-    if (fecha_inicio && fecha_fin) {
+    if (fecha_inicio != "" && fecha_fin!= "") {
       const fechaUtilizacionStart = new Date(fecha_inicio);
       fechaUtilizacionStart.setUTCHours(0, 0, 0, 0);
       const fechaUtilizacionEnd = new Date(fecha_fin);
@@ -241,7 +241,7 @@ router.get('/pedido', async (req, res) => {
         $lte: fechaUtilizacionEnd
       };
     }
-    if (edificio) {
+    if (edificio != " ") {
       query.edificio = edificio;
     }
     const pedidos = await Pedido.find(query).populate({
